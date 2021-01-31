@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "moon_clock",
+  "pattern": [
+    " M ",
+    "SRS",
+    " S "
+  ],
+  "key": {
+    "S": {"tag": "c:silver_ingots"},
+    "M": {"tag": "c:moonstones"},
+    "R": {"item": "minecraft:redstone"}
+  },
+  "result": {
+    "item": "magicpower:moon_clock"
+  }
+}

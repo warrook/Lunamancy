@@ -16,7 +16,9 @@
     "main": [
       "warrook.magicpower.MagicPower"
     ],
-    "client": [],
+    "client": [
+      "warrook.magicpower.MagicPowerClient"
+    ],
     "server": []
   },
   "mixins": [],

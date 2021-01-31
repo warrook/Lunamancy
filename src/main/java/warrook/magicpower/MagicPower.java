@@ -1,5 +1,6 @@
 package warrook.magicpower;
 
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -35,3 +36,4 @@ public class MagicPower implements ModInitializer {
     }
 
 }
+

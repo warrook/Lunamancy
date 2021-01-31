@@ -1,0 +1,16 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "magicpower:item/moon_clock_00"
+  },
+  "overrides": [
+    { "predicate": { "phase": 0.0000000 }, "model": "magicpower:item/moon_clock"},
+    { "predicate": { "phase": 0.1250000 }, "model": "magicpower:item/moon_clock_01"},
+    { "predicate": { "phase": 0.2500000 }, "model": "magicpower:item/moon_clock_02"},
+    { "predicate": { "phase": 0.3750000 }, "model": "magicpower:item/moon_clock_03"},
+    { "predicate": { "phase": 0.5000000 }, "model": "magicpower:item/moon_clock_04"},
+    { "predicate": { "phase": 0.6250000 }, "model": "magicpower:item/moon_clock_05"},
+    { "predicate": { "phase": 0.7500000 }, "model": "magicpower:item/moon_clock_06"},
+    { "predicate": { "phase": 0.8750000 }, "model": "magicpower:item/moon_clock_07"}
+  ]
+}
