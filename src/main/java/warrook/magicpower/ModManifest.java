@@ -2,17 +2,30 @@ package warrook.magicpower;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.registry.Registry;
-import warrook.magicpower.collector.CollectorBlock;
-import warrook.magicpower.collector.CollectorBlockEntity;
+import net.minecraft.world.gen.decorator.Decorator;
+import net.minecraft.world.gen.decorator.RangeDecoratorConfig;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
+import warrook.magicpower.collector.MagnifyingLensBlock;
+import warrook.magicpower.collector.MagnifyingLensBlockEntity;
+import warrook.magicpower.entities.LunaMothEntity;
 import warrook.magicpower.items.MoonClockItem;
+import warrook.magicpower.world.OreFeatures;
 
 public class ModManifest
 {
@@ -20,6 +33,9 @@ public class ModManifest
     {
         ModItems.registerItems();
         ModBlocks.registerBlocks();
+        ModEntities.registerEntities();
+
+        OreFeatures.registerAll();
     }
 
     public static class ModItems {
@@ -51,16 +67,18 @@ public class ModManifest
         public static final Block SILVER_ORE = new Block(FabricBlockSettings.of(Material.STONE).breakByTool(FabricToolTags.PICKAXES, 2).requiresTool());
         public static final Block MOONSTONE_BLOCK = new Block(FabricBlockSettings.of(Material.GLASS)); //TODO: Actual real settings
 
-        public static final Block COLLECTOR_BLOCK = new CollectorBlock();
-        public static final BlockEntityType<CollectorBlockEntity> COLLECTOR_BLOCK_ENTITY = BlockEntityType.Builder.create(CollectorBlockEntity::new, COLLECTOR_BLOCK).build(null);
+        public static final Block MAGNIFYING_LENS_BLOCK = new MagnifyingLensBlock();
+        public static final BlockEntityType<MagnifyingLensBlockEntity> MAGNIFYING_LENS_BLOCK_ENTITY = BlockEntityType.Builder.create(MagnifyingLensBlockEntity::new, MAGNIFYING_LENS_BLOCK).build(null);
 
         static void registerBlocks() {
             register("moonstone_ore", MOONSTONE_ORE, ItemGroup.BUILDING_BLOCKS);
             register("silver_ore", SILVER_ORE, ItemGroup.BUILDING_BLOCKS);
             register("moonstone_block", MOONSTONE_BLOCK);
 
-            register("collector", COLLECTOR_BLOCK);
-            register("collector", COLLECTOR_BLOCK_ENTITY);
+            register("magnifying_lens", MAGNIFYING_LENS_BLOCK);
+            register("magnifying_lens", MAGNIFYING_LENS_BLOCK_ENTITY);
+
+            //Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,)
         }
 
         static void register(String blockName, Block block)
@@ -77,6 +95,24 @@ public class ModManifest
 
         static void register(String blockName, BlockEntityType blockEntityType) {
             Registry.register(Registry.BLOCK_ENTITY_TYPE, MagicPower.defaultID(blockName), blockEntityType);
+        }
+    }
+
+    public static class ModEntities {
+
+        public static final EntityType<LunaMothEntity> LUNA_MOTH = FabricEntityTypeBuilder
+                .create(SpawnGroup.AMBIENT, LunaMothEntity::new)
+                .dimensions(EntityDimensions.fixed(1f,1f))
+                .build();
+
+        static void registerEntities() {
+            register("luna_moth", LUNA_MOTH, LunaMothEntity.createMobAttributes());
+        }
+
+        static void register(String entityName, EntityType entityType, DefaultAttributeContainer.Builder attributes)
+        {
+            Registry.register(Registry.ENTITY_TYPE, MagicPower.defaultID(entityName), entityType);
+            FabricDefaultAttributeRegistry.register(entityType, attributes);
         }
     }
 }

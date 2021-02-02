@@ -15,6 +15,7 @@ public class PhaseProperty implements ModelPredicateProvider {
 
     @Override
     public float call(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity entity) {
+        //Stole this from Age-of-Exile
         if (entity == null && !stack.isInFrame())
             return 0.25f;
 
