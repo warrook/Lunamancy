@@ -1,8 +1,18 @@
 package warrook.magicpower.utils;
 
+import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
+import net.fabricmc.fabric.impl.client.indigo.renderer.helper.TextureHelper;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.model.SpriteAtlasManager;
+import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.data.client.model.Texture;
+import net.minecraft.data.client.model.TextureKey;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import warrook.magicpower.MagicPower;
 
 public class MoonUtils {
 
@@ -13,14 +23,20 @@ public class MoonUtils {
     public static int getMoonPhase(World world) {
         return world != null ? world.getMoonPhase() : 0;
     }
+    public static float getMoonPhaseNormalized(World world) {
+        return getMoonPhase(world) / 7f;
+    }
 
-    public static Pair<Float, Float> getMoonlight(World world)
-    {
+    public static Identifier getMoonClockSprite(World world) {
+        String path = "textures/item/moon_clock_0" + getMoonPhase(world) + ".png";
+        return new Identifier(MagicPower.MOD_ID, path);
+    }
+
+    public static Pair<Float, Float> getMoonlight(World world) {
         float b, d;
         int phase = getMoonPhase(world);
 
-        switch (phase)
-        {
+        switch (phase) {
             case 0:
                 b = 1f;
                 break;

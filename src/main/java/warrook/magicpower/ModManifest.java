@@ -16,13 +16,11 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.decorator.Decorator;
-import net.minecraft.world.gen.decorator.RangeDecoratorConfig;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-import warrook.magicpower.collector.MagnifyingLensBlock;
-import warrook.magicpower.collector.MagnifyingLensBlockEntity;
+import org.apache.logging.log4j.Level;
+import warrook.magicpower.blocks.BowlBlock;
+import warrook.magicpower.blocks.MagnifyingLensBlock;
+import warrook.magicpower.blocks.entities.BowlBlockEntity;
+import warrook.magicpower.blocks.entities.MagnifyingLensBlockEntity;
 import warrook.magicpower.entities.LunaMothEntity;
 import warrook.magicpower.items.MoonClockItem;
 import warrook.magicpower.world.OreFeatures;
@@ -54,6 +52,8 @@ public class ModManifest
             register("silver_ingot", SILVER_INGOT);
             register("silver_nugget", SILVER_NUGGET);
             register("moon_clock", MOON_CLOCK);
+
+            MagicPower.log(Level.INFO, "Items registered");
         }
 
         static void register(String itemName, Item item)
@@ -69,16 +69,21 @@ public class ModManifest
 
         public static final Block MAGNIFYING_LENS_BLOCK = new MagnifyingLensBlock();
         public static final BlockEntityType<MagnifyingLensBlockEntity> MAGNIFYING_LENS_BLOCK_ENTITY = BlockEntityType.Builder.create(MagnifyingLensBlockEntity::new, MAGNIFYING_LENS_BLOCK).build(null);
+        public static final Block BOWL_BLOCK = new BowlBlock();
+        public static final BlockEntityType<BowlBlockEntity> BOWL_BLOCK_ENTITY = BlockEntityType.Builder.create(BowlBlockEntity::new, BOWL_BLOCK).build(null);
 
         static void registerBlocks() {
             register("moonstone_ore", MOONSTONE_ORE, ItemGroup.BUILDING_BLOCKS);
             register("silver_ore", SILVER_ORE, ItemGroup.BUILDING_BLOCKS);
             register("moonstone_block", MOONSTONE_BLOCK);
 
-            register("magnifying_lens", MAGNIFYING_LENS_BLOCK);
-            register("magnifying_lens", MAGNIFYING_LENS_BLOCK_ENTITY);
+            //Block Entities
+            register("magnifying_lens", MAGNIFYING_LENS_BLOCK, MAGNIFYING_LENS_BLOCK_ENTITY);
+            register("bowl", BOWL_BLOCK, BOWL_BLOCK_ENTITY);
 
             //Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,)
+
+            MagicPower.log(Level.INFO, "Blocks registered");
         }
 
         static void register(String blockName, Block block)
@@ -96,6 +101,11 @@ public class ModManifest
         static void register(String blockName, BlockEntityType blockEntityType) {
             Registry.register(Registry.BLOCK_ENTITY_TYPE, MagicPower.defaultID(blockName), blockEntityType);
         }
+
+        static void register(String blockName, Block block, BlockEntityType blockEntityType) {
+            register(blockName, block);
+            register(blockName, blockEntityType);
+        }
     }
 
     public static class ModEntities {
@@ -107,6 +117,8 @@ public class ModManifest
 
         static void registerEntities() {
             register("luna_moth", LUNA_MOTH, LunaMothEntity.createMobAttributes());
+
+            MagicPower.log(Level.INFO, "Entities registered");
         }
 
         static void register(String entityName, EntityType entityType, DefaultAttributeContainer.Builder attributes)

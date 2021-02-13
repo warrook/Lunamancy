@@ -4,15 +4,15 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.impl.client.texture.SpriteRegistryCallbackHolder;
+import net.fabricmc.fabric.impl.renderer.SpriteFinderImpl;
 import net.fabricmc.fabric.mixin.object.builder.ModelPredicateProviderRegistryAccessor;
-import net.fabricmc.fabric.mixin.object.builder.ModelPredicateProviderRegistrySpecificAccessor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.util.Identifier;
-import org.lwjgl.system.CallbackI;
-import warrook.magicpower.collector.CollectorBlockEntityRenderer;
+import net.minecraft.client.render.model.SpriteAtlasManager;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import warrook.magicpower.entities.LunaMothEntityRenderer;
+import warrook.magicpower.models.BowlBlockEntityRenderer;
 import warrook.magicpower.utils.PhaseProperty;
 
 public class MagicPowerClient implements ClientModInitializer {
@@ -21,7 +21,8 @@ public class MagicPowerClient implements ClientModInitializer {
     public void onInitializeClient() {
 
         //TODO: Move to ModManifest, probably.
-        //BlockEntityRendererRegistry.INSTANCE.register(ModManifest.ModBlocks.COLLECTOR_BLOCK_ENTITY, CollectorBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.INSTANCE.register(ModManifest.ModBlocks.BOWL_BLOCK_ENTITY, BowlBlockEntityRenderer::new);
+
 
         //Moon phase model property
         ModelPredicateProviderRegistryAccessor.callRegister(PhaseProperty.IDENTIFIER, new PhaseProperty());
