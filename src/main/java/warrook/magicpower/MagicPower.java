@@ -1,12 +1,8 @@
 package warrook.magicpower;
 
-import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +17,7 @@ public class MagicPower implements ModInitializer {
     @Override
     public void onInitialize() {
         log(Level.INFO, "Initializing");
-        ModManifest.RegisterAll();
+        ModManifest.registerAll();
 
     }
 

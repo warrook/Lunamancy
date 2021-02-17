@@ -1,0 +1,10 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {"item": "magicpower:coal_dust"},
+    {"item": "magicpower:dust_pouch"}
+  ],
+  "result": {
+    "item": "magicpower:dust_pouch_coal"
+  }
+}

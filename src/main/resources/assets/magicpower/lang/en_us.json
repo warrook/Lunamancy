@@ -5,11 +5,19 @@
   "item.magicpower.silver_ingot": "Silver Ingot",
   "item.magicpower.silver_nugget": "Silver Nugget",
   "item.magicpower.moon_clock": "Moon Clock",
+  "item.magicpower.athame": "Athame",
+  "item.magicpower.wand": "Wand",
+  "item.magicpower.bone_dust": "Bone Dust",
+  "item.magicpower.coal_dust": "Coal Dust",
+  "item.magicpower.dust_pouch": "Dust Pouch (Empty)",
+  "item.magicpower.dust_pouch_bone": "Dust Pouch (Bone)",
+  "item.magicpower.dust_pouch_coal": "Dust Pouch (Coal)",
 
   "block.magicpower.moonstone_ore": "Moonstone Ore",
   "block.magicpower.moonstone_block": "Block of Moonstone",
   "block.magicpower.silver_ore": "Silver Ore",
   "block.magicpower.magnifying_lens": "Magnifying Lens",
-  "block.magicpower.bowl": "Scrying Bowl"
+  "block.magicpower.bowl": "Scrying Bowl",
+  "block.magicpower.pylon": "Pylon"
 
 }

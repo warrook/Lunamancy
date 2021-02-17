@@ -1,5 +1,7 @@
 package warrook.magicpower.utils;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
 import net.fabricmc.fabric.impl.client.indigo.renderer.helper.TextureHelper;
 import net.minecraft.client.MinecraftClient;
@@ -27,8 +29,9 @@ public class MoonUtils {
         return getMoonPhase(world) / 7f;
     }
 
+    @Environment(EnvType.CLIENT)
     public static Identifier getMoonClockSprite(World world) {
-        String path = "textures/item/moon_clock_0" + getMoonPhase(world) + ".png";
+        String path = "textures/gui/moon_phase_0" + getMoonPhase(world) + ".png";
         return new Identifier(MagicPower.MOD_ID, path);
     }
 

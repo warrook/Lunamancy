@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "pouch",
+  "pattern": [
+    " LS",
+    "L L",
+    " L "
+  ],
+  "key": {
+    "L": [{"item": "minecraft:leather"}, {"item": "minecraft:rabbit_hide"}],
+    "S": {"item": "minecraft:string"}
+  },
+  "result": {
+    "item": "magicpower:dust_pouch"
+  }
+}

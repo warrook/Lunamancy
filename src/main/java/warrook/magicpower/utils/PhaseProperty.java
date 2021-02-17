@@ -13,6 +13,7 @@ public class PhaseProperty implements ModelPredicateProvider {
 
     public static final Identifier IDENTIFIER = new Identifier("phase");
 
+    //TODO: Fix this so it gets the world better; currently if the item is on the ground, it does 0.25f.
     @Override
     public float call(ItemStack stack, @Nullable ClientWorld world, @Nullable LivingEntity entity) {
         //Stole this from Age-of-Exile
@@ -33,8 +34,9 @@ public class PhaseProperty implements ModelPredicateProvider {
         else
             currentWorld = currentEntity.world;
 
-        if (currentWorld == null)
+        if (currentWorld == null) {
             return 0.25f;
+        }
 
         return currentWorld.getMoonPhase() / 7f;
     }

@@ -14,10 +14,10 @@ public class RenderHelper {
     public static RenderLayer getRenderLayerUnlit(Identifier texture) {
         RenderLayer.MultiPhaseParameters params = RenderLayer.MultiPhaseParameters.builder()
                 .texture(new RenderPhase.Texture(texture, false, false))
-                .transparency(RenderPhases.TRANSLUCENT_TRANSPARENCY)
+                .transparency(RenderPhases.TEST_TRANSPARENCY)
                 .writeMaskState(new RenderPhase.WriteMaskState(true,false))
                 .fog(RenderPhases.FOG) //maybe not necessary
-                .lightmap(new RenderPhase.Lightmap(false)) //don't think i need this either
+                .lightmap(new RenderPhase.Lightmap(true))
                 .build(false);
 
         return RenderLayer.of(label("unlit"), VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL, 7, 256, false, true, params);
@@ -28,7 +28,43 @@ public class RenderHelper {
                 label("translucent_transparency"),
                 () -> {
                     RenderSystem.enableBlend();
-                    RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+                    RenderSystem.blendFuncSeparate(
+                            GlStateManager.SrcFactor.SRC_ALPHA,
+                            GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA,
+                            GlStateManager.SrcFactor.ONE,
+                            GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+                },
+                () -> {
+                    RenderSystem.disableBlend();
+                    RenderSystem.defaultBlendFunc();
+                });
+
+        public static final RenderPhase.Transparency ADDITIVE_TRANSPARENCY = new RenderPhase.Transparency(
+                label("additive_transparency"),
+                () -> {
+                    RenderSystem.enableBlend();
+                    RenderSystem.blendFuncSeparate(
+                            GlStateManager.SrcFactor.SRC_ALPHA,
+                            GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA,
+                            GlStateManager.SrcFactor.ONE_MINUS_SRC_ALPHA,
+                            GlStateManager.DstFactor.ONE
+                    );
+                },
+                () -> {
+                   RenderSystem.disableBlend();
+                   RenderSystem.defaultBlendFunc();
+                });
+
+        public static final RenderPhase.Transparency TEST_TRANSPARENCY = new RenderPhase.Transparency(
+                label("test_transparency"),
+                () -> {
+                    RenderSystem.enableBlend();
+                    RenderSystem.blendFuncSeparate(
+                            GlStateManager.SrcFactor.DST_COLOR,
+                            GlStateManager.DstFactor.DST_COLOR,
+                            GlStateManager.SrcFactor.SRC_ALPHA,
+                            GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA
+                    );
                 },
                 () -> {
                     RenderSystem.disableBlend();

@@ -1,4 +1,4 @@
-package warrook.magicpower.collector;
+package warrook.magicpower.blocks.entities;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -9,6 +9,7 @@ import net.minecraft.util.Tickable;
 import org.apache.logging.log4j.Level;
 import warrook.magicpower.MagicPower;
 import warrook.magicpower.ModManifest;
+import warrook.magicpower.blocks.MagnifyingLensBlock;
 import warrook.magicpower.utils.MoonUtils;
 
 public class MagnifyingLensBlockEntity extends BlockEntity implements Tickable {
