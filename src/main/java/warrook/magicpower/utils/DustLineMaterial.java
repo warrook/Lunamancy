@@ -1,5 +1,6 @@
 package warrook.magicpower.utils;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StringIdentifiable;
@@ -35,5 +36,15 @@ public enum DustLineMaterial implements StringIdentifiable {
         if (item == ModManifest.ModItems.BONE_DUST)
             return BONE;
         return NONE;
+    }
+
+    public static int getColor(DustLineMaterial value) {
+        if (value == COAL) {
+            return Blocks.COAL_BLOCK.getDefaultMaterialColor().color;
+        }
+        if (value == BONE) {
+            return Blocks.BONE_BLOCK.getDefaultMaterialColor().color;
+        }
+        return -1;
     }
 }
