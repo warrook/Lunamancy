@@ -11,17 +11,15 @@ import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 import warrook.magicpower.blocks.entities.PylonBlockEntity;
 
-public class PylonBlock extends Block implements BlockEntityProvider {
+public class PylonBlock extends BaseBlock implements BlockEntityProvider {
 
     protected static final VoxelShape OUTLINE;
 
     public PylonBlock() {
-        super(FabricBlockSettings
+        super("pylon", FabricBlockSettings
                 .of(Material.STONE)
                 .nonOpaque()
         );
-
-
     }
 
     @Override

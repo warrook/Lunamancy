@@ -1,8 +1,7 @@
-package warrook.magicpower.utils;
+package warrook.magicpower.utils.enums;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.StringIdentifiable;
 import warrook.magicpower.ModManifest;
 

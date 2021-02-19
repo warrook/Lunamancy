@@ -1,15 +1,12 @@
 package warrook.magicpower;
 
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
-import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -24,6 +21,7 @@ import warrook.magicpower.blocks.entities.*;
 import warrook.magicpower.items.*;
 import warrook.magicpower.entities.LunaMothEntity;
 import warrook.magicpower.items.MoonClockItem;
+import warrook.magicpower.utils.enums.LensType;
 import warrook.magicpower.world.OreFeatures;
 
 public class ModManifest
@@ -51,11 +49,14 @@ public class ModManifest
         public static final Item DUST_POUCH_BONE = new DustPouchBone();
         public static final Item DUST_POUCH_COAL = new DustPouchCoal();
 
+        public static final Item LENS_FOCUSING = new LensItem(LensType.FOCUSING);
+        public static final Item LENS_DIFFUSING = new LensItem(LensType.DIFFUSING);
+
         //TODO: Silver tools
 
         static void registerItems()
         {
-            register("fabric_item", FABRIC_ITEM);
+            //register("fabric_item", FABRIC_ITEM);
             register("moonstone", MOONSTONE);
             register("silver_ingot", SILVER_INGOT);
             register("silver_nugget", SILVER_NUGGET);
@@ -63,11 +64,14 @@ public class ModManifest
             register("athame", ATHAME);
             register("wand", WAND);
 
+            register("bone_dust", BONE_DUST);
+            register("coal_dust", COAL_DUST);
             register("dust_pouch", DUST_POUCH);
             register("dust_pouch_bone", DUST_POUCH_BONE);
             register("dust_pouch_coal", DUST_POUCH_COAL);
-            register("bone_dust", BONE_DUST);
-            register("coal_dust", COAL_DUST);
+
+            register("focusing_lens", LENS_FOCUSING);
+            register("diffusing_lens", LENS_DIFFUSING);
 
             MagicPower.log(Level.INFO, "Items registered");
         }
@@ -79,55 +83,70 @@ public class ModManifest
     }
 
     public static class ModBlocks {
-        public static final Block MOONSTONE_ORE = new Block(FabricBlockSettings.of(Material.STONE).strength(4.0f).breakByTool(FabricToolTags.PICKAXES, 1).requiresTool());
-        public static final Block SILVER_ORE = new Block(FabricBlockSettings.of(Material.STONE).breakByTool(FabricToolTags.PICKAXES, 2).requiresTool());
-        public static final Block MOONSTONE_BLOCK = new Block(FabricBlockSettings.of(Material.GLASS)); //TODO: Actual real settings
-        public static final Block DUST_LINE = new DustLineBlock();
+        //TODO: Block stats
+        public static final BaseBlock MOONSTONE_ORE = new BaseBlock("moonstone_ore", FabricBlockSettings.of(Material.STONE).strength(4.0f).breakByTool(FabricToolTags.PICKAXES, 1).requiresTool());
+        public static final BaseBlock MOONSTONE_BLOCK = new BaseBlock("moonstone_block", FabricBlockSettings.of(Material.GLASS));
+        public static final BaseBlock SILVER_ORE = new BaseBlock("silver_ore", FabricBlockSettings.of(Material.STONE).breakByTool(FabricToolTags.PICKAXES, 2).requiresTool());
+        public static final BaseBlock SILVER_BLOCK = new BaseBlock("silver_block", FabricBlockSettings.of(Material.METAL));
+        public static final DustLineBlock DUST_LINE = new DustLineBlock();
+        public static final LensStandBlock LENS_STAND = new LensStandBlock();
 
-        public static final Block MAGNIFYING_LENS_BLOCK = new MagnifyingLensBlock();
-        public static final BlockEntityType<MagnifyingLensBlockEntity> MAGNIFYING_LENS_BLOCK_ENTITY = BlockEntityType.Builder.create(MagnifyingLensBlockEntity::new, MAGNIFYING_LENS_BLOCK).build(null);
-        public static final Block BOWL_BLOCK = new BowlBlock();
+        public static final BowlBlock BOWL_BLOCK = new BowlBlock();
         public static final BlockEntityType<BowlBlockEntity> BOWL_BLOCK_ENTITY = BlockEntityType.Builder.create(BowlBlockEntity::new, BOWL_BLOCK).build(null);
-        public static final Block PYLON_BLOCK = new PylonBlock();
+        public static final PylonBlock PYLON_BLOCK = new PylonBlock();
         public static final BlockEntityType<PylonBlockEntity> PYLON_BLOCK_ENTITY = BlockEntityType.Builder.create(PylonBlockEntity::new, PYLON_BLOCK).build(null);
+        public static final BasinBlock MOONLIGHT_BASIN = new BasinBlock();
+        public static final BlockEntityType<BasinBlockEntity> BASIN_BLOCK_ENTITY = BlockEntityType.Builder.create(BasinBlockEntity::new, MOONLIGHT_BASIN).build(null);
 
         static void registerBlocks() {
-            register("moonstone_ore", MOONSTONE_ORE, ItemGroup.BUILDING_BLOCKS);
-            register("silver_ore", SILVER_ORE, ItemGroup.BUILDING_BLOCKS);
-            register("moonstone_block", MOONSTONE_BLOCK);
-            registerNoBlockItem("dust_line", DUST_LINE);
+            //TODO: ItemGroup
+            register(MOONSTONE_ORE, ItemGroup.BUILDING_BLOCKS);
+            register(MOONSTONE_BLOCK, ItemGroup.BUILDING_BLOCKS);
+            register(SILVER_ORE, ItemGroup.BUILDING_BLOCKS);
+            register(SILVER_BLOCK, ItemGroup.BUILDING_BLOCKS);
+            registerBlockOnly(DUST_LINE);
+            register(LENS_STAND);
 
             //Block Entities
-            register("magnifying_lens", MAGNIFYING_LENS_BLOCK, MAGNIFYING_LENS_BLOCK_ENTITY);
-            register("bowl", BOWL_BLOCK, BOWL_BLOCK_ENTITY);
-            register("pylon", PYLON_BLOCK, PYLON_BLOCK_ENTITY);
+            register(BOWL_BLOCK, BOWL_BLOCK_ENTITY);
+            register(PYLON_BLOCK, PYLON_BLOCK_ENTITY);
+            register(MOONLIGHT_BASIN, BASIN_BLOCK_ENTITY);
 
             MagicPower.log(Level.INFO, "Blocks registered");
         }
 
-        static void register(String blockName, Block block)
-        {
-            Registry.register(Registry.BLOCK, MagicPower.defaultID(blockName), block);
-            Registry.register(Registry.ITEM, MagicPower.defaultID(blockName), new BlockItem(block, new FabricItemSettings().group(ItemGroup.MATERIALS)));
+        static void register(BaseBlock block) {
+            register(block, ItemGroup.MISC);
         }
 
-        static void register(String blockName, Block block, ItemGroup itemGroup)
-        {
-            Registry.register(Registry.BLOCK, MagicPower.defaultID(blockName), block);
-            Registry.register(Registry.ITEM, MagicPower.defaultID(blockName), new BlockItem(block, new FabricItemSettings().group(itemGroup)));
+        static void register(BaseBlock block, ItemGroup itemGroup) {
+            registerBlockOnly(block);
+            registerBlockItem(block, itemGroup);
         }
 
-        static void register(String blockName, BlockEntityType blockEntityType) {
-            Registry.register(Registry.BLOCK_ENTITY_TYPE, MagicPower.defaultID(blockName), blockEntityType);
+        static void register(BaseBlock block, BlockEntityType blockEntityType) {
+            register(block, blockEntityType, ItemGroup.MISC);
         }
 
-        static void register(String blockName, Block block, BlockEntityType blockEntityType) {
-            register(blockName, block);
-            register(blockName, blockEntityType);
+        static void register(BaseBlock block, BlockEntityType blockEntityType, ItemGroup itemGroup) {
+            register(block, itemGroup);
+            registerBlockEntity(block, blockEntityType);
         }
 
-        static void registerNoBlockItem(String blockName, Block block) {
-            Registry.register(Registry.BLOCK, MagicPower.defaultID(blockName), block);
+        private static void registerBlockOnly(BaseBlock block) {
+            Registry.register(Registry.BLOCK, MagicPower.defaultID(block.registryName), block);
+        }
+
+        private static void registerBlockItem(BaseBlock block, ItemGroup itemGroup) {
+            Registry.register(Registry.ITEM, MagicPower.defaultID(block.registryName), new BlockItem(block, new FabricItemSettings().group(itemGroup)));
+        }
+
+        private static void registerBlockEntity(BaseBlock block, BlockEntityType blockEntityType) {
+            Registry.register(Registry.BLOCK_ENTITY_TYPE, MagicPower.defaultID(block.registryName), blockEntityType);
+        }
+
+        public static Item getBlockItem(BaseBlock block) {
+            return Registry.ITEM.get(MagicPower.defaultID(block.registryName));
         }
     }
 

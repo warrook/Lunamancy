@@ -1,23 +1,18 @@
 package warrook.magicpower.items;
 
-import net.fabricmc.fabric.api.item.v1.CustomDamageHandler;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import warrook.magicpower.ModManifest;
 import warrook.magicpower.blocks.DustLineBlock;
-import warrook.magicpower.utils.DustLineMaterial;
+import warrook.magicpower.utils.enums.DustLineMaterial;
 
 public class DustPouch extends Item {
     protected Item dustItem;

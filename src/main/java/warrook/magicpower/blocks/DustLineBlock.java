@@ -15,9 +15,9 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-import warrook.magicpower.utils.DustLineMaterial;
+import warrook.magicpower.utils.enums.DustLineMaterial;
 
-public class DustLineBlock extends Block {
+public class DustLineBlock extends BaseBlock {
 
     //TODO: hitbox
     //TODO: Make mixed connections possible (a T where one part is a different dust), by clicking on a block with dust on it already with a different dust?
@@ -32,7 +32,7 @@ public class DustLineBlock extends Block {
     private BlockState STATEPART_ALL_CONNECTIONS;
 
     public DustLineBlock() {
-        super(FabricBlockSettings.of(Material.CARPET)
+        super("dust_line", FabricBlockSettings.of(Material.CARPET)
                 .nonOpaque()
                 .breakInstantly()
                 .noCollision()

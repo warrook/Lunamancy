@@ -9,16 +9,12 @@ import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 import warrook.magicpower.blocks.entities.BowlBlockEntity;
 
-public class BowlBlock extends Block implements BlockEntityProvider {
+public class BowlBlock extends BaseBlock implements BlockEntityProvider {
 
     protected static final VoxelShape BOUNDS = Block.createCuboidShape(2.0d, 0.0d, 2.0d, 14.0d, 5.0d, 14.0d);
 
     public BowlBlock() {
-        this(FabricBlockSettings.of(Material.STONE).nonOpaque());
-    }
-
-    public BowlBlock(Settings settings) {
-        super(settings);
+        super("bowl", FabricBlockSettings.of(Material.STONE).nonOpaque());
     }
 
     @Override

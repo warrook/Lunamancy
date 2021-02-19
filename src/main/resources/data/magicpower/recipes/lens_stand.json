@@ -1,17 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "lens",
+  "group": "frame",
   "pattern": [
-    "NGN",
+    "NNN",
     "B B",
     "B B"
   ],
   "key": {
     "N": {"item": "minecraft:iron_nugget"},
-    "B": {"item": "minecraft:iron_ingot"},
-    "G": {"item": "minecraft:glass"}
+    "B": {"item": "minecraft:iron_ingot"}
   },
   "result": {
-    "item": "magicpower:magnifying_lens"
+    "item": "magicpower:lens_stand"
   }
 }

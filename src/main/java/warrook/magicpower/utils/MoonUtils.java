@@ -2,21 +2,21 @@ package warrook.magicpower.utils;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.renderer.v1.model.SpriteFinder;
-import net.fabricmc.fabric.impl.client.indigo.renderer.helper.TextureHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.model.SpriteAtlasManager;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.data.client.model.Texture;
-import net.minecraft.data.client.model.TextureKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import warrook.magicpower.MagicPower;
+import warrook.magicpower.utils.enums.Moonlight;
 
 public class MoonUtils {
+
+    public static final long TIME_NIGHT_STARTS = 13000L;
+    public static final long TIME_NIGHT_ENDS = 23000L;
+    public static final long NIGHT_DURATION = TIME_NIGHT_ENDS - TIME_NIGHT_STARTS;
+    public static final long TIME_MIDNIGHT = 18000L;
+    public static final long FULL_DAY_DURATION = 24000L;
+
 
     public static boolean canSeeSky(World world, BlockPos pos) {
         return world.getDimension().hasSkyLight() && world.isSkyVisible(pos);
@@ -35,32 +35,58 @@ public class MoonUtils {
         return new Identifier(MagicPower.MOD_ID, path);
     }
 
-    public static Pair<Float, Float> getMoonlight(World world) {
-        float b, d;
+    public static float getWhite(World world) {
         int phase = getMoonPhase(world);
 
         switch (phase) {
             case 0:
-                b = 1f;
-                break;
+                return 1f;
             case 1:
             case 7:
-                b = 0.75f;
-                break;
+                return 0.75f;
             case 2:
             case 6:
-                b = 0.5f;
-                break;
+                return 0.5f;
             case 3:
             case 5:
-                b = 0.25f;
-                break;
+                return 0.25f;
             case 4:
             default:
-                b = 0f;
+                return 0f;
         }
-        d = 1f - b;
+    }
 
-        return new Pair(b, d);
+    public static float getBlack(World world) {
+        return 1 - getWhite(world);
+    }
+
+    public static float getSidedLight(World world, Moonlight light) {
+        switch (light) {
+            case WHITE:
+                return getWhite(world);
+            case BLACK:
+                return getBlack(world);
+            case BOTH:
+                return 1f;
+            case NEITHER:
+            default:
+                return 0f;
+        }
+    }
+
+    public static boolean worldTimeIsBetween(World world, long min, long max) {
+        long time = world.getTimeOfDay() % FULL_DAY_DURATION;
+        return time >= min && time < max;
+    }
+
+    public static float getFlatLightRate(World world) {
+        long time = world.getTimeOfDay() % FULL_DAY_DURATION;
+        long night = time - TIME_NIGHT_STARTS;
+
+        return MathHelper.abs(night - NIGHT_DURATION / 2f) / 5000f;
+    }
+
+    public static float getSidedLightRate(World world, Moonlight light) {
+        return getFlatLightRate(world) * getSidedLight(world, light);
     }
 }

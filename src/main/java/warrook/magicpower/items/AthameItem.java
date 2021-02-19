@@ -38,9 +38,9 @@ public class AthameItem extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!world.isClient) {
             //MagicPower.log(Level.INFO, user.getMainHandStack().getTranslationKey() + " " + user.getOffHandStack().getTranslationKey());
-            if (user.inventory.getEmptySlot() > 0 || user.inventory.contains(new ItemStack(ModManifest.ModBlocks.MAGNIFYING_LENS_BLOCK))) {
+            /*if (user.inventory.getEmptySlot() > 0 || user.inventory.contains(new ItemStack(ModManifest.ModBlocks.MAGNIFYING_LENS_BLOCK))) {
                 user.giveItemStack(new ItemStack(ModManifest.ModBlocks.MAGNIFYING_LENS_BLOCK));
-            }
+            }*/
         }
 
         return super.use(world, user, hand);

@@ -12,12 +12,17 @@
   "item.magicpower.dust_pouch": "Dust Pouch (Empty)",
   "item.magicpower.dust_pouch_bone": "Dust Pouch (Bone)",
   "item.magicpower.dust_pouch_coal": "Dust Pouch (Coal)",
+  "item.magicpower.focusing_lens": "Focusing Lens",
+  "item.magicpower.diffusing_lens": "Diffusing Lens",
 
   "block.magicpower.moonstone_ore": "Moonstone Ore",
   "block.magicpower.moonstone_block": "Block of Moonstone",
   "block.magicpower.silver_ore": "Silver Ore",
+  "block.magicpower.silver_block": "Block of Silver",
   "block.magicpower.magnifying_lens": "Magnifying Lens",
   "block.magicpower.bowl": "Scrying Bowl",
-  "block.magicpower.pylon": "Pylon"
+  "block.magicpower.pylon": "Pylon",
+  "block.magicpower.moonlight_basin": "Moonlight Basin",
+  "block.magicpower.lens_stand": "Lens Stand"
 
 }
