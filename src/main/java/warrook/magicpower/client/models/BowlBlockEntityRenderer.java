@@ -1,6 +1,5 @@
-package warrook.magicpower.models;
+package warrook.magicpower.client.models;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;

@@ -2,13 +2,18 @@ package warrook.magicpower.utils;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BackgroundRenderer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
 import net.minecraft.client.render.VertexFormats;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import warrook.magicpower.MagicPower;
 
+@Environment(EnvType.CLIENT)
 public class RenderHelper {
 
     public static RenderLayer getRenderLayerUnlit(Identifier texture) {

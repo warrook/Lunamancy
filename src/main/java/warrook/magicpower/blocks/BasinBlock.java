@@ -6,6 +6,7 @@ import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.Level;
 import warrook.magicpower.MagicPower;
 import warrook.magicpower.ModManifest;
 import warrook.magicpower.blocks.entities.BasinBlockEntity;
+import warrook.magicpower.client.gui.ToolHud;
 import warrook.magicpower.utils.enums.LensType;
 
 public class BasinBlock extends BaseBlock implements BlockEntityProvider {

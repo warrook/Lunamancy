@@ -8,8 +8,8 @@ import net.fabricmc.fabric.mixin.object.builder.ModelPredicateProviderRegistryAc
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.render.RenderLayer;
 import warrook.magicpower.blocks.DustLineBlock;
-import warrook.magicpower.entities.LunaMothEntityRenderer;
-import warrook.magicpower.models.BowlBlockEntityRenderer;
+import warrook.magicpower.client.models.LunaMothEntityRenderer;
+import warrook.magicpower.client.models.BowlBlockEntityRenderer;
 import warrook.magicpower.utils.enums.DustLineMaterial;
 import warrook.magicpower.utils.PhaseProperty;
 

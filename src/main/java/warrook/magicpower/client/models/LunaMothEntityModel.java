@@ -1,10 +1,9 @@
-package warrook.magicpower.models;// Made with Blockbench 3.7.5
+package warrook.magicpower.client.models;// Made with Blockbench 3.7.5
 
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 import warrook.magicpower.entities.LunaMothEntity;
 
 public class LunaMothEntityModel extends EntityModel<LunaMothEntity> {

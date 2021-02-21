@@ -2,22 +2,25 @@ package warrook.magicpower.blocks.entities;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tickable;
-import org.apache.logging.log4j.Level;
-import warrook.magicpower.MagicPower;
 import warrook.magicpower.ModManifest;
 import warrook.magicpower.blocks.LensStandBlock;
+import warrook.magicpower.client.gui.ToolHud;
 import warrook.magicpower.utils.MoonUtils;
 import warrook.magicpower.utils.enums.LensType;
 import warrook.magicpower.utils.enums.Moonlight;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public class BasinBlockEntity extends BlockEntity implements Tickable {
+public class BasinBlockEntity extends BlockEntity implements Tickable, ToolHud {
     private static final Map<LensType, Float> LENS_MAP;
 
     private boolean isBlocked = true;
@@ -78,6 +81,17 @@ public class BasinBlockEntity extends BlockEntity implements Tickable {
                 }
             }
         }
+        if (world.isClient()) {
+            PlayerEntity player = MinecraftClient.getInstance().player;
+            if (player != null && player.isHolding(ModManifest.ModItems.WAND)) {
+
+            }
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    public void renderHud(MatrixStack matrices) {
+
     }
 
     @Override

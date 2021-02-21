@@ -40,9 +40,6 @@ public class ModManifest
         public static final Item MOONSTONE = new Item(new FabricItemSettings().group(ItemGroup.MISC));
         public static final Item SILVER_INGOT = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
         public static final Item SILVER_NUGGET = new Item(new FabricItemSettings().group(ItemGroup.MATERIALS));
-        public static final Item MOON_CLOCK = new MoonClockItem(new FabricItemSettings().group(ItemGroup.MISC));
-        public static final Item ATHAME = new AthameItem();
-        public static final Item WAND = new WandItem();
         public static final Item COAL_DUST = new Item(new FabricItemSettings().group(ItemGroup.MISC));
         public static final Item BONE_DUST = new Item(new FabricItemSettings().group(ItemGroup.MISC));
         public static final Item DUST_POUCH = new Item(new FabricItemSettings().group(ItemGroup.TOOLS));
@@ -52,6 +49,13 @@ public class ModManifest
         public static final Item LENS_FOCUSING = new LensItem(LensType.FOCUSING);
         public static final Item LENS_DIFFUSING = new LensItem(LensType.DIFFUSING);
 
+        //Tools
+        @Deprecated
+        public static final Item MOON_CLOCK = new MoonClockItem(new FabricItemSettings().group(ItemGroup.MISC));
+        public static final Item ATHAME = new AthameItem();
+        public static final Item WAND = new WandItem();
+        public static final Item SYMBOL = new SymbolItem();
+
         //TODO: Silver tools
 
         static void registerItems()
@@ -60,10 +64,6 @@ public class ModManifest
             register("moonstone", MOONSTONE);
             register("silver_ingot", SILVER_INGOT);
             register("silver_nugget", SILVER_NUGGET);
-            register("moon_clock", MOON_CLOCK);
-            register("athame", ATHAME);
-            register("wand", WAND);
-
             register("bone_dust", BONE_DUST);
             register("coal_dust", COAL_DUST);
             register("dust_pouch", DUST_POUCH);
@@ -72,6 +72,11 @@ public class ModManifest
 
             register("focusing_lens", LENS_FOCUSING);
             register("diffusing_lens", LENS_DIFFUSING);
+
+            register("moon_clock", MOON_CLOCK);
+            register("athame", ATHAME);
+            register("wand", WAND);
+            register("symbol", SYMBOL);
 
             MagicPower.log(Level.INFO, "Items registered");
         }
@@ -84,6 +89,7 @@ public class ModManifest
 
     public static class ModBlocks {
         //TODO: Block stats
+        //TODO: Runes, or maybe bone dice? Yew/rowan wood?
         public static final BaseBlock MOONSTONE_ORE = new BaseBlock("moonstone_ore", FabricBlockSettings.of(Material.STONE).strength(4.0f).breakByTool(FabricToolTags.PICKAXES, 1).requiresTool());
         public static final BaseBlock MOONSTONE_BLOCK = new BaseBlock("moonstone_block", FabricBlockSettings.of(Material.GLASS));
         public static final BaseBlock SILVER_ORE = new BaseBlock("silver_ore", FabricBlockSettings.of(Material.STONE).breakByTool(FabricToolTags.PICKAXES, 2).requiresTool());

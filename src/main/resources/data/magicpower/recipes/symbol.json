@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "symbol",
+  "pattern": [
+    "  S",
+    " M ",
+    "S  "
+  ],
+  "key": {
+    "S": {"tag": "c:silver_ingots"},
+    "M": {"tag": "c:moonstones"}
+  },
+  "result": {
+    "item": "magicpower:moon_clock"
+  }
+}
