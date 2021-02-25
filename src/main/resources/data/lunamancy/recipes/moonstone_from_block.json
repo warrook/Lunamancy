@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:moonstones"
+    }
+  ],
+  "result": {
+    "item": "lunamancy:moonstone",
+    "count": 9
+  }
+}

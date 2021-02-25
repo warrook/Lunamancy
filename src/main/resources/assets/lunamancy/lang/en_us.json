@@ -1,0 +1,28 @@
+{
+  "item.lunamancy.fabric_item": "Hi!",
+  "item.lunamancy.fabric_item.tooltip": "It is a tooltip, my %s.",
+  "item.lunamancy.moonstone": "Moonstone",
+  "item.lunamancy.silver_ingot": "Silver Ingot",
+  "item.lunamancy.silver_nugget": "Silver Nugget",
+  "item.lunamancy.moon_clock": "Moon Clock",
+  "item.lunamancy.athame": "Athame",
+  "item.lunamancy.wand": "Wand",
+  "item.lunamancy.bone_dust": "Bone Dust",
+  "item.lunamancy.coal_dust": "Coal Dust",
+  "item.lunamancy.dust_pouch": "Dust Pouch (Empty)",
+  "item.lunamancy.dust_pouch_bone": "Dust Pouch (Bone)",
+  "item.lunamancy.dust_pouch_coal": "Dust Pouch (Coal)",
+  "item.lunamancy.focusing_lens": "Focusing Lens",
+  "item.lunamancy.diffusing_lens": "Diffusing Lens",
+  "item.lunamancy.symbol": "Silver Symbol",
+
+  "block.lunamancy.moonstone_ore": "Moonstone Ore",
+  "block.lunamancy.moonstone_block": "Block of Moonstone",
+  "block.lunamancy.silver_ore": "Silver Ore",
+  "block.lunamancy.silver_block": "Block of Silver",
+  "block.lunamancy.bowl": "Scrying Bowl",
+  "block.lunamancy.pylon": "Pylon",
+  "block.lunamancy.moonlight_basin": "Moonlight Basin",
+  "block.lunamancy.lens_stand": "Lens Stand"
+
+}

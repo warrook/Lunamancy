@@ -1,0 +1,10 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {"item": "lunamancy:coal_dust"},
+    {"item": "lunamancy:dust_pouch"}
+  ],
+  "result": {
+    "item": "lunamancy:dust_pouch_coal"
+  }
+}

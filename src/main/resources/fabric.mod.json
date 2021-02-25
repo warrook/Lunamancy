@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "magicpower",
+  "id": "lunamancy",
   "version": "0.0.1",
-  "name": "Magic Power",
+  "name": "Lunamancy",
   "description": "Power, but make it magic.",
   "authors": [
     "warrook"
@@ -10,14 +10,14 @@
   "contributors": [],
   "contact": {},
   "license": "CC0-1.0",
-  "icon": "assets/magicpower/icon.png",
+  "icon": "assets/lunamancy/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "warrook.magicpower.MagicPower"
+      "warrook.lunamancy.Lunamancy"
     ],
     "client": [
-      "warrook.magicpower.MagicPowerClient"
+      "warrook.lunamancy.LunamancyClient"
     ],
     "server": []
   },

@@ -1,0 +1,15 @@
+{
+  "multipart": [
+    {
+      "apply": {"model": "lunamancy:block/lens_stand"}
+    },
+    {
+      "when": { "lens": "focusing" },
+      "apply": { "model": "lunamancy:block/lens_convex" }
+    },
+    {
+      "when": { "lens": "diffusing" },
+      "apply": { "model": "lunamancy:block/lens_concave" }
+    }
+  ]
+}

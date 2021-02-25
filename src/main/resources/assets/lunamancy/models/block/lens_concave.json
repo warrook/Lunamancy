@@ -1,0 +1,7 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "lunamancy:block/lens_base",
+	"textures": {
+		"0": "lunamancy:block/lens_concave"
+	}
+}

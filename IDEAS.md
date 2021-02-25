@@ -1,0 +1,1 @@
+- Make lenses care about weather, and make a lens that doesn't care about weather (at a small cost (it takes some of the moonlight to power the enchantment), but much smaller than the traditional lenses)

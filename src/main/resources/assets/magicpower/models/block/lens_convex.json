@@ -1,7 +1,0 @@
-{
-	"credit": "Made with Blockbench",
-	"parent": "magicpower:block/lens_base",
-	"textures": {
-		"0": "magicpower:block/lens_convex"
-	}
-}

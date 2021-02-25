@@ -1,0 +1,22 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "lunamancy:block/silver_block"
+	},
+	"elements": [
+		{
+			"name": "lens",
+			"from": [5, 7, 5],
+			"to": [11, 9, 11],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 6], "rotation": 90, "texture": "#0"},
+				"east": {"uv": [0, 0, 2, 6], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [0, 0, 2, 6], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [0, 0, 2, 6], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [2, 0, 8, 6], "texture": "#0"},
+				"down": {"uv": [2, 0, 8, 6], "rotation": 180, "texture": "#0"}
+			}
+		}
+	],
+	"display": {}
+}

@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "sky_visible=false": { "model": "magicpower:block/magnifying_lens" },
-    "sky_visible=true": { "model": "magicpower:block/magnifying_lens" }
-  }
-}
