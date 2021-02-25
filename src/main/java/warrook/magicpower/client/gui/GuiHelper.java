@@ -1,18 +1,25 @@
 package warrook.magicpower.client.gui;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.BufferRenderer;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Matrix4f;
 import warrook.magicpower.MagicPower;
+import warrook.magicpower.blocks.entities.BasinBlockEntity;
+import warrook.magicpower.utils.enums.Moonlight;
 
 @Environment(EnvType.CLIENT)
 public class GuiHelper {
-    private static final Identifier BARS_TEXTURE = new Identifier("minecraft","textures/gui/bars.png");
+    //private static final Identifier BARS_TEXTURE = new Identifier("minecraft","textures/gui/bars.png");
     private static final MinecraftClient client = MinecraftClient.getInstance();
 
     public static void renderOverlay() {
@@ -24,41 +31,50 @@ public class GuiHelper {
     }
 
     public static class SymbolReadout extends DrawableHelper {
-        //TODO: this.
-    }
+        private static final Identifier TEXTURE = MagicPower.defaultID("textures/gui/symbol.png");
 
-    public static class BarReadout extends DrawableHelper {
+        public static final SymbolReadout INSTANCE = new SymbolReadout();
 
-        private int amount;
-        private int maximum;
+        public static Identifier getTexture() { return TEXTURE; }
 
-        public BarReadout(float amount, float maximum) {
-            this.amount = (int)amount;
-            this.maximum = (int) maximum;
+        public void renderSymbol(MatrixStack matrices, int centerX, int centerY, Moonlight lightType, float contained, float maximum) {
+            int x = centerX - (32 / 2);
+            int y = centerY - (14 / 2);
+
+            renderSymbolDirect(matrices, x, y, lightType, contained, maximum);
         }
 
-        public void render(MatrixStack matrices) {
-            int screenWidth = client.getWindow().getScaledWidth();
-            int posX = screenWidth / 2;
-            int posY = 30;
+        public void renderSymbolDirect(MatrixStack matrices, int x, int y, Moonlight lightType, float contained, float maximum) {
+            client.getTextureManager().bindTexture(TEXTURE);
 
-            client.getTextureManager().bindTexture(BARS_TEXTURE);
-            this.renderBar(matrices, posX, posY);
-        }
+            int u = 8;
+            int v = 0; //14
 
-        private void renderBar(MatrixStack matrices, int x, int y) {
-            //BG
-            this.drawTexture(matrices, x, y, 0, 60, 182, 5); //bar
-            this.drawTexture(matrices, x, y, 0, 80, 182, 5); //overlay
-            //FG
-            int prog = (int)(amount / maximum * 183.0F);
-            if (prog > 0) {
-                this.drawTexture(matrices, x, y, 0, 60, prog, 5); //bar
-                this.drawTexture(matrices, x, y, 0, 80, prog, 5); //overlay
+            drawTexture(matrices, x, y, u, v, 32, 14, 64, 64);
+
+            //gem
+            u = 0;
+            switch (lightType) {
+                case BLACK:
+                    v = 16;
+                    break;
+                case WHITE:
+                    v = 8;
+                    break;
+                default:
+                    v = 24;
             }
 
-            Text text = new TranslatableText("gui.%s.basin", MagicPower.MOD_ID);
-            client.textRenderer.drawWithShadow(matrices, text, 0, 0, 0xFFFFFF);
+            float pct = (contained / maximum);
+            int w = (int)(pct * 8f);
+
+            RenderSystem.color4f(1f,1f,1f, pct);
+            drawTexture(matrices, x + 12, y + 3, u, v, 8, 8, 64, 64);
+            RenderSystem.color4f(1, 1, 1, 1);
+        }
+
+        public void renderFromBasin(MatrixStack matrices, int x, int y, BasinBlockEntity basin) {
+            renderSymbol(matrices, x, y, basin.lightType, basin.getAmount(), basin.getCapacity());
         }
     }
 }

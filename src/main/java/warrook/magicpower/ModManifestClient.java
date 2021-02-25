@@ -4,10 +4,12 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.mixin.object.builder.ModelPredicateProviderRegistryAccessor;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.render.RenderLayer;
 import warrook.magicpower.blocks.DustLineBlock;
+import warrook.magicpower.client.gui.MoonHud;
 import warrook.magicpower.client.models.LunaMothEntityRenderer;
 import warrook.magicpower.client.models.BowlBlockEntityRenderer;
 import warrook.magicpower.utils.enums.DustLineMaterial;
@@ -20,6 +22,8 @@ public class ModManifestClient {
         registerBlocks();
         registerEntities();
         registerMisc();
+
+        HudRenderCallback.EVENT.register(MoonHud::render);
     }
 
     private static void registerBlocks() {
@@ -38,6 +42,8 @@ public class ModManifestClient {
 
         //block entities
         BlockEntityRendererRegistry.INSTANCE.register(ModBlocks.BOWL_BLOCK_ENTITY, BowlBlockEntityRenderer::new);
+        //BlockEntityRendererRegistry.INSTANCE.register(ModBlocks.BASIN_BLOCK_ENTITY, BasinBlockEntityRenderer::new);
+
 
     }
 

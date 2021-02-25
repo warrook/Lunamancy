@@ -32,4 +32,15 @@ public enum Moonlight implements StringIdentifiable {
             return BOTH;
         return NEITHER;
     }
+
+    public Moonlight next() {
+        if (this == WHITE)
+            return BLACK;
+        if (this == BLACK)
+            return BOTH;
+        if (this == BOTH)
+            return WHITE;
+        //The Moonlight type should be set or unset explicitly.
+        return NEITHER;
+    }
 }
