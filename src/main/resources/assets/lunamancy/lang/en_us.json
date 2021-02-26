@@ -23,6 +23,8 @@
   "block.lunamancy.bowl": "Scrying Bowl",
   "block.lunamancy.pylon": "Pylon",
   "block.lunamancy.moonlight_basin": "Moonlight Basin",
-  "block.lunamancy.lens_stand": "Lens Stand"
+  "block.lunamancy.lens_stand": "Lens Stand",
+  "block.lunamancy.moonlight_channeler": "Moonlight Channeler",
+  "block.lunamancy.prism": "Prism"
 
 }

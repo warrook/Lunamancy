@@ -2,53 +2,42 @@ package warrook.lunamancy.blocks.entities;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Tickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
-import org.jetbrains.annotations.Nullable;
 import warrook.lunamancy.Lunamancy;
 import warrook.lunamancy.ModManifest;
 import warrook.lunamancy.blocks.LensStandBlock;
-import warrook.lunamancy.client.gui.GuiHelper;
-import warrook.lunamancy.client.gui.ToolHud;
-import warrook.lunamancy.utils.LightContainer;
 import warrook.lunamancy.utils.MoonUtils;
+import warrook.lunamancy.utils.ToolUser;
 import warrook.lunamancy.utils.enums.LensType;
 import warrook.lunamancy.utils.enums.Moonlight;
+import warrook.lunamancy.utils.network.LightTransmitter;
 
 import java.util.Map;
 
-public class BasinBlockEntity extends BlockEntity implements Tickable, ToolHud, LightContainer, BlockEntityClientSerializable {
+//TODO: Decide whether to make a BER to display the moonlight at a distance, by color changing the water, or color changing the moonstone base. Maybe make it give off more light based on contents?
+public class BasinBlockEntity extends LightContainerImpl implements Tickable, ToolUser, BlockEntityClientSerializable {
     private static final Map<LensType, Float> LENS_MAP;
 
     private boolean isBlocked = true;
-    private float amount = 0;
-    private float capacity;
     private float baseRate;
     private float lensModifier;
     private LensType lensOver;
 
-    public Moonlight lightType;
-
     public BasinBlockEntity() {
-        this(10000f, 1f);
+        this(1f);
     }
 
-    public BasinBlockEntity(float capacity, float baseRate) {
+    public BasinBlockEntity(float baseRate) {
         super(ModManifest.ModBlocks.BASIN_BLOCK_ENTITY);
-        this.amount = 0f;
-        this.capacity = capacity;
         this.baseRate = baseRate;
-        this.lightType = Moonlight.BOTH;
 
         setLensOver(LensType.NONE);
         checkLens();
@@ -79,37 +68,44 @@ public class BasinBlockEntity extends BlockEntity implements Tickable, ToolHud, 
         if (world != null && !world.isClient()) {
             if (world.getTime() % 120 == 0) {
                 isBlocked = MoonUtils.canSeeSky(world, pos);
-                Lunamancy.log(Level.INFO, amount + " / " + capacity + " " + lightType.asString());
+                //Lunamancy.log(Level.INFO, amount + " / " + capacity + " " + lightType.asString());
             }
             if (!isBlocked && MoonUtils.worldTimeIsBetween(world, 13000L, 23000L)) {
-                if (amount < capacity) {
+                if (this.lightAmount < this.lightCapacity) {
                     float adjustment = lightType == Moonlight.BOTH ? 0.5f : 1 + MoonUtils.getSidedLightRate(world, lightType);
                     float toAdd = baseRate * lensModifier * adjustment;
-                    amount = Math.min(amount + toAdd, capacity);
+                    this.lightAmount = Math.min(this.getAmount() + toAdd, this.getCapacity());
                 }
                 this.sync();
             }
         }
     }
 
-
-
-    @Environment(EnvType.CLIENT)
-    public void renderHud(MatrixStack matrices) {
-        int x = MinecraftClient.getInstance().getWindow().getScaledWidth() / 2;
-        int y = MinecraftClient.getInstance().getWindow().getScaledHeight() / 2 + 30;
-
-        GuiHelper.SymbolReadout.INSTANCE.renderFromBasin(matrices, x, y, this);
+    @Override
+    public void onToolUse(World world, BlockPos pos, PlayerEntity player) {
+        Lunamancy.log(Level.INFO, getLightType().asString());
+        if (player.isHolding(ModManifest.ModItems.WAND)) {
+            //TODO: Warn player that it'll empty the container, require confirmation
+            this.lightType = this.lightType.next();
+            markDirty();
+        } else if (player.isHolding(ModManifest.ModItems.ATHAME)) {
+            //Activate a ritual or something
+        }
     }
+
+    /*@Environment(EnvType.CLIENT)
+    public void renderHud(MatrixStack matrices) {
+        GuiHelper.renderSymbolReadout(matrices, this);
+    }*/
 
     @Override
     public CompoundTag toTag(CompoundTag tag) {
         super.toTag(tag);
 
-        tag.putFloat("amount", amount);
-        tag.putFloat("capacity", capacity);
         tag.putFloat("base_rate", baseRate);
-        tag.putString("light_type", lightType.asString());
+        tag.putFloat("amount", this.lightAmount);
+        tag.putFloat("capacity", this.lightCapacity);
+        tag.putString("light_type", this.lightType.asString());
 
         return tag;
     }
@@ -118,38 +114,20 @@ public class BasinBlockEntity extends BlockEntity implements Tickable, ToolHud, 
     public void fromTag(BlockState state, CompoundTag tag) {
         super.fromTag(state, tag);
 
-        amount = tag.getFloat("amount");
-        capacity = tag.getFloat("capacity");
         baseRate = tag.getFloat("base_rate");
-        lightType = Moonlight.fromString(tag.getString("light_type"));
+        this.lightType = Moonlight.fromString(tag.getString("light_type"));
+        this.lightAmount = tag.getFloat("amount");
+        this.lightCapacity = tag.getFloat("capacity");
     }
 
     @Override
-    public CompoundTag toClientTag(CompoundTag tag) {
-        tag.putFloat("amount", amount);
-        tag.putFloat("capacity", capacity);
-        return tag;
+    public ActionResult pushLight(LightTransmitter to) {
+        return null;
     }
 
     @Override
-    public void fromClientTag(CompoundTag tag) {
-        amount = tag.getFloat("amount");
-        capacity = tag.getFloat("capacity");
-    }
+    public void requestAmount(float amount) {
 
-    @Override
-    public float getAmount() {
-        return this.amount;
-    }
-
-    @Override
-    public float getCapacity() {
-        return this.capacity;
-    }
-
-    @Override
-    public Moonlight getLightType() {
-        return lightType;
     }
 
     static {

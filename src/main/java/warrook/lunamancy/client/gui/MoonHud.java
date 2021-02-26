@@ -2,21 +2,17 @@ package warrook.lunamancy.client.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import warrook.lunamancy.Lunamancy;
 import warrook.lunamancy.ModManifest.*;
-import warrook.lunamancy.blocks.entities.BasinBlockEntity;
-import warrook.lunamancy.utils.LightContainer;
+import warrook.lunamancy.utils.network.LightContainer;
 
 @Environment(EnvType.CLIENT) //irrelevant, pretty sure
 public class MoonHud extends DrawableHelper {

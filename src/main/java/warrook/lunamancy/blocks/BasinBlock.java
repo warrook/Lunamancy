@@ -6,22 +6,14 @@ import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import org.apache.logging.log4j.Level;
-import warrook.lunamancy.Lunamancy;
-import warrook.lunamancy.ModManifest;
 import warrook.lunamancy.blocks.entities.BasinBlockEntity;
-import warrook.lunamancy.client.gui.ToolHud;
-import warrook.lunamancy.utils.enums.LensType;
+import warrook.lunamancy.utils.ToolUser;
 
-public class BasinBlock extends BaseBlock implements BlockEntityProvider {
+public class BasinBlock extends BaseBlock implements BlockEntityProvider, ToolUser {
     public BasinBlock() {
         super("moonlight_basin", FabricBlockSettings
                 .of(Material.METAL)
@@ -30,7 +22,7 @@ public class BasinBlock extends BaseBlock implements BlockEntityProvider {
 
     @Override
     public BlockEntity createBlockEntity(BlockView world) {
-        return new BasinBlockEntity(300f, 1f);
+        return new BasinBlockEntity(1f);
     }
 
     @Override
@@ -55,20 +47,7 @@ public class BasinBlock extends BaseBlock implements BlockEntityProvider {
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (!world.isClient) {
-            BasinBlockEntity entity = (BasinBlockEntity) world.getBlockEntity(pos);
-            if (entity != null) {
-                if (player.isHolding(ModManifest.ModItems.WAND)) {
-                    entity.lightType = entity.lightType.next();
-                } else if (player.isHolding(ModManifest.ModItems.ATHAME)) {
-                    //Activate a ritual or something
-                }
-            }
-        }
-
-        return super.onUse(state, world, pos, player, hand, hit);
+    public void onToolUse(World world, BlockPos pos, PlayerEntity player) {
+        ((BasinBlockEntity) world.getBlockEntity(pos)).onToolUse(world, pos, player);
     }
-
-
 }

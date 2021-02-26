@@ -89,13 +89,14 @@ public class ModManifest
 
     public static class ModBlocks {
         //TODO: Block stats
-        //TODO: Runes, or maybe bone dice? Yew/rowan wood?
+        //TODO: Runes, or maybe bone dice? Yew/rowan wood? All sorts of ireland woods? Oghma?
         public static final BaseBlock MOONSTONE_ORE = new BaseBlock("moonstone_ore", FabricBlockSettings.of(Material.STONE).strength(4.0f).breakByTool(FabricToolTags.PICKAXES, 1).requiresTool());
         public static final BaseBlock MOONSTONE_BLOCK = new BaseBlock("moonstone_block", FabricBlockSettings.of(Material.GLASS));
         public static final BaseBlock SILVER_ORE = new BaseBlock("silver_ore", FabricBlockSettings.of(Material.STONE).breakByTool(FabricToolTags.PICKAXES, 2).requiresTool());
         public static final BaseBlock SILVER_BLOCK = new BaseBlock("silver_block", FabricBlockSettings.of(Material.METAL));
         public static final DustLineBlock DUST_LINE = new DustLineBlock();
         public static final LensStandBlock LENS_STAND = new LensStandBlock();
+        public static final ChannelerBlock MOONLIGHT_CHANNELER = new ChannelerBlock();
 
         public static final BowlBlock BOWL_BLOCK = new BowlBlock();
         public static final BlockEntityType<BowlBlockEntity> BOWL_BLOCK_ENTITY = BlockEntityType.Builder.create(BowlBlockEntity::new, BOWL_BLOCK).build(null);
@@ -103,6 +104,8 @@ public class ModManifest
         public static final BlockEntityType<PylonBlockEntity> PYLON_BLOCK_ENTITY = BlockEntityType.Builder.create(PylonBlockEntity::new, PYLON_BLOCK).build(null);
         public static final BasinBlock MOONLIGHT_BASIN = new BasinBlock();
         public static final BlockEntityType<BasinBlockEntity> BASIN_BLOCK_ENTITY = BlockEntityType.Builder.create(BasinBlockEntity::new, MOONLIGHT_BASIN).build(null);
+        public static final PrismBlock PRISM = new PrismBlock();
+        public static final BlockEntityType<PrismBlockEntity> PRISM_BLOCK_ENTITY = BlockEntityType.Builder.create(PrismBlockEntity::new, PRISM).build(null);
 
         static void registerBlocks() {
             //TODO: ItemGroup
@@ -112,11 +115,15 @@ public class ModManifest
             register(SILVER_BLOCK, ItemGroup.BUILDING_BLOCKS);
             registerBlockOnly(DUST_LINE);
             register(LENS_STAND);
+            register(MOONLIGHT_CHANNELER);
 
             //Block Entities
             register(BOWL_BLOCK, BOWL_BLOCK_ENTITY);
             register(PYLON_BLOCK, PYLON_BLOCK_ENTITY);
             register(MOONLIGHT_BASIN, BASIN_BLOCK_ENTITY);
+            register(PRISM, PRISM_BLOCK_ENTITY);
+
+            //Network
 
             Lunamancy.log(Level.INFO, "Blocks registered");
         }

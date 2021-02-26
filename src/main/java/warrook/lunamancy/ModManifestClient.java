@@ -29,7 +29,7 @@ public class ModManifestClient {
     private static void registerBlocks() {
         //blocks
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getTranslucent(), ModBlocks.LENS_STAND);
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DUST_LINE, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ModBlocks.DUST_LINE, ModBlocks.PRISM);
         ColorProviderRegistry.BLOCK.register(((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getWaterColor(world, pos) : -1),
                 ModBlocks.PYLON_BLOCK,
                 ModBlocks.MOONLIGHT_BASIN

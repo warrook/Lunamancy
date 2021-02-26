@@ -1,20 +1,14 @@
 package warrook.lunamancy.client.gui;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix4f;
 import warrook.lunamancy.Lunamancy;
-import warrook.lunamancy.blocks.entities.BasinBlockEntity;
+import warrook.lunamancy.blocks.entities.LightContainerImpl;
 import warrook.lunamancy.utils.enums.Moonlight;
 
 @Environment(EnvType.CLIENT)
@@ -30,7 +24,13 @@ public class GuiHelper {
         MinecraftClient.getInstance().getProfiler().pop();
     }
 
-    public static class SymbolReadout extends DrawableHelper {
+    public static void renderSymbolReadout(MatrixStack matrices, LightContainerImpl entity) {
+        int x = client.getWindow().getScaledWidth() / 2;
+        int y = client.getWindow().getScaledHeight() / 2 + 30;
+        SymbolReadout.INSTANCE.render(matrices, x, y, entity);
+    }
+
+    protected static class SymbolReadout extends DrawableHelper {
         private static final Identifier TEXTURE = Lunamancy.defaultID("textures/gui/symbol.png");
 
         public static final SymbolReadout INSTANCE = new SymbolReadout();
@@ -73,8 +73,8 @@ public class GuiHelper {
             RenderSystem.color4f(1, 1, 1, 1);
         }
 
-        public void renderFromBasin(MatrixStack matrices, int x, int y, BasinBlockEntity basin) {
-            renderSymbol(matrices, x, y, basin.lightType, basin.getAmount(), basin.getCapacity());
+        public void render(MatrixStack matrices, int x, int y, LightContainerImpl container) {
+            renderSymbol(matrices, x, y, container.getLightType(), container.getAmount(), container.getCapacity());
         }
     }
 }
