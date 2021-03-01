@@ -45,49 +45,31 @@ public class LightUtils {
             }
             //TODO: Merge confirmation
             manager.merge(netTo.get(), netFrom.get());
+            Lunamancy.log(Level.INFO, GUI_NET_CONNECTING.translate("success"));
+            return true;
         }
 
+        LightNet net;
         if (netFrom.isPresent() ^ netTo.isPresent()) {
-            LightNet oldNet = netTo.orElseGet(netFrom::get);
-
-            LightNodeInfo infoFrom = getOrCreateInfo(entityFrom, from, oldNet);
-            LightNodeInfo infoTo = getOrCreateInfo(entityTo, to, oldNet);
-            infoFrom.addConnection(infoTo);
-            infoTo.addConnection(infoFrom);
-
-            //I don't think this is needed due to getOrCreateInfo()
-            trySetInfo(entityFrom, infoFrom);
-            trySetInfo(entityTo, infoTo);
-            oldNet.addNodes(infoFrom, infoTo);
-
+            net = netTo.orElseGet(netFrom::get);
         } else {
-            LightNet newNet = manager.makeAndRegisterNewNet();
-
-            LightNodeInfo infoFrom = getOrCreateInfo(entityFrom, from, newNet);
-            LightNodeInfo infoTo = getOrCreateInfo(entityTo, to, newNet);
-            infoFrom.addConnection(infoTo);
-            infoTo.addConnection(infoFrom);
-
-            trySetInfo(entityFrom, infoFrom);
-            trySetInfo(entityTo, infoTo);
-            newNet.addNodes(infoFrom, infoTo);
+            net = manager.makeAndRegisterNewNet();
         }
+
+        LightNodeInfo infoFrom = getOrCreateInfo(entityFrom, from, net);
+        LightNodeInfo infoTo = getOrCreateInfo(entityTo, to, net);
+        infoFrom.addConnection(infoTo);
+        infoTo.addConnection(infoFrom);
+
+        //I don't think this is needed due to getOrCreateInfo()
+        trySetInfo(entityFrom, infoFrom);
+        trySetInfo(entityTo, infoTo);
+        net.addNodes(infoFrom, infoTo);
+
         Lunamancy.log(Level.INFO, GUI_NET_CONNECTING.translate("success"));
+
+        manager.markDirty();
         return true;
-    }
-
-    //my brain is broken but this probably works
-    private static void linkInfo(LightTransmitterImpl entity, LightNodeInfo from, LightNodeInfo to) {
-        if (entity.getNodeInfo() == null) {
-            entity.setNodeInfo(from);
-        } else {
-            entity.addConnection(to);
-        }
-
-        if (entity.getNodeInfo() == null) {
-            entity.setNodeInfo(from);
-        }
-        entity.addConnection(to);
     }
 
     private static LightNodeInfo getOrCreateInfo(@Nullable BlockEntity entity, BlockPos pos, LightNet net) {

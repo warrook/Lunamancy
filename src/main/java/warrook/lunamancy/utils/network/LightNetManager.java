@@ -24,6 +24,7 @@ public final class LightNetManager extends PersistentState {
     public LightNetManager(ServerWorld world) {
         super(KEY);
         this.world = world;
+        markDirty();
     }
 
     public static LightNetManager of(ServerWorld world) {
@@ -51,7 +52,7 @@ public final class LightNetManager extends PersistentState {
         return register(id, new LightNet(id));
     }
 
-    public void remove(UUID id) {
+    public void removeNet(UUID id) {
         managedLightNets.remove(id);
         markDirty();
     }
@@ -59,7 +60,7 @@ public final class LightNetManager extends PersistentState {
     public void merge(LightNet priority, LightNet... toMerge) {
         priority.merge(toMerge);
         for (LightNet net : toMerge) {
-            remove(net.getId());
+            removeNet(net.getId());
         }
         markDirty();
     }
@@ -78,6 +79,19 @@ public final class LightNetManager extends PersistentState {
         return null;
     }
 
+    public void removeFromAnyNetWithNodePos(BlockPos pos) {
+        LightNet n = getNetWithNodePos(pos);
+        if (n != null) {
+            removeNodePosInNet(n.getId(), pos);
+        }
+    }
+
+    public void removeNodePosInNet(UUID netId, BlockPos pos) {
+        LightNet n = getNetWithUuid(netId);
+        n.removeNode(pos);
+        markDirty();
+    }
+
     public ServerWorld getWorld() {
         return world;
     }
@@ -92,7 +106,6 @@ public final class LightNetManager extends PersistentState {
         return tag;
     }
 
-    //This gets caught in an endless loop because the Net and NodeInfo go upstream
     @Override
     public void fromTag(CompoundTag tag) {
         ListTag list = tag.getList("ManagedLightNets", NbtType.COMPOUND);

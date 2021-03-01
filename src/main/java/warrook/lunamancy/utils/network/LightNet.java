@@ -50,6 +50,14 @@ public class LightNet {
             return connectedNodes.containsKey(pos.toImmutable());
     }
 
+    public void removeNode(BlockPos pos) {
+        if (!connectedNodes.containsKey(pos)) {
+            return;
+        }
+        connectedNodes.remove(pos);
+        Lunamancy.log(Level.INFO, "Removed node at " + pos);
+    }
+
     public LightNet merge(LightNet... lightNets) {
         HashMap<BlockPos, LightNodeInfo> map = new HashMap<>(connectedNodes);
         for (LightNet net : lightNets) {
@@ -74,6 +82,7 @@ public class LightNet {
         return tag;
     }
 
+    //TODO: Verification of node locations as they're loaded?
     public static LightNet fromTag(CompoundTag tag) {
         UUID id = tag.getUuid("Id");
         LightNet net = new LightNet(id);

@@ -8,10 +8,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import warrook.lunamancy.utils.network.LightTransmitter;
 
-//TODO: Probably a block entity but I also have to figure out how the whole thing works
-public class ChannelerBlock extends LightTransmitterBlockImpl implements LightTransmitter {
+public class ChannelerBlock extends LightTransmitterBlockImpl {
     public static final VoxelShape BOX;
 
     public ChannelerBlock() {
@@ -23,7 +23,16 @@ public class ChannelerBlock extends LightTransmitterBlockImpl implements LightTr
         return BOX;
     }
 
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        super.onStateReplaced(state, world, pos, newState, moved);
+    }
+
     static {
-        BOX = createCuboidShape(5d, 0d, 5d, 11d, 16d, 11d);
+        BOX = VoxelShapes.union(
+                /*base*/ createCuboidShape(6d, 0d, 6d, 10d, 3d, 10d),
+                /*rod*/ createCuboidShape(7d, 3d, 7d, 9d, 12d, 9d),
+                /*focus*/ createCuboidShape(6d, 12d, 6d, 10d, 16d, 10d)
+        );
     }
 }

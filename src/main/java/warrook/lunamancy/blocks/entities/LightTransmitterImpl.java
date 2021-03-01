@@ -28,16 +28,11 @@ public abstract class LightTransmitterImpl extends BlockEntity implements LightT
         lightNodeInfo.addConnection(node);
     }
 
-    //TODO: separate this into a separate method that only LightNet and LightNetManager use
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
-        if (this.world == null) { //server is starting so world hasn't been set
-            LightScheduler.scheduleFromTag(this);
-        } else { //this is happening after the server started so it should be safe
-            CompoundTag t = (CompoundTag) tag.get("nodeInfo");
-            if (t != null) {
-                lightNodeInfo = LightNodeInfo.fromTag(t);
-            }
+        CompoundTag t = (CompoundTag) tag.get("nodeInfo");
+        if (t != null) {
+            lightNodeInfo = LightNodeInfo.fromTag(t);
         }
         super.fromTag(state, tag);
     }

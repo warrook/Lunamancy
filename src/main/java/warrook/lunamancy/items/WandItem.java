@@ -6,7 +6,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.RegistryKey;
@@ -40,6 +39,7 @@ public class WandItem extends Item {
                 BlockEntity entityAt = world.getBlockEntity(nowUsedOn);
 
                 //LightNet
+                //TODO: Sever connection if holding key?
                 if (blockAt instanceof LightTransmitter || entityAt instanceof LightTransmitter) {
                     if (lastUsedOn == null || lastUsedIn == null) {
                         lastUsedOn = nowUsedOn; lastUsedIn = nowUsedIn;
