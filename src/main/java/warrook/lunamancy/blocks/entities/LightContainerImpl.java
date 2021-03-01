@@ -19,6 +19,7 @@ public abstract class LightContainerImpl extends LightTransmitterImpl implements
 
     public LightContainerImpl(BlockEntityType<?> type) {
         super(type);
+        this.initLight();
     }
 
     protected void initLight() {

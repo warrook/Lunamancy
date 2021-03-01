@@ -11,19 +11,4 @@ public abstract class LightTransmitterBlockImpl extends BaseBlock implements Lig
     public LightTransmitterBlockImpl(String name, Settings settings) {
         super(name, settings);
     }
-
-    @Override
-    public BlockPos getPos() {
-        return null;
-    }
-
-    @Override
-    public ActionResult pushLight(LightTransmitter to) {
-        return null;
-    }
-
-    @Override
-    public void requestAmount(float amount) {
-
-    }
 }

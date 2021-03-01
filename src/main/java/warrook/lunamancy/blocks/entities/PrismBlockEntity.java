@@ -4,7 +4,7 @@ import warrook.lunamancy.ModManifest;
 import warrook.lunamancy.utils.enums.Moonlight;
 import warrook.lunamancy.utils.network.LightTransmitter;
 
-public class PrismBlockEntity extends LightContainerImpl implements LightTransmitter {
+public class PrismBlockEntity extends LightContainerImpl {
 
     public PrismBlockEntity() {
         this(Moonlight.WHITE, 1000f);

@@ -1,4 +1,10 @@
 {
+  "gui.lunamancy.net.connecting.start": "Linking moonlight.",
+  "gui.lunamancy.net.connecting.same_net": "Moonlight already flows through these.",
+  "gui.lunamancy.net.connecting.too_far": "Those nodes are too far from each other.",
+  "gui.lunamancy.net.connecting.diff_dimensions": "Moonlight can't cross dimensions without help.",
+  "gui.lunamancy.net.connecting.success": "Moonlight now flows through these nodes.",
+
   "item.lunamancy.fabric_item": "Hi!",
   "item.lunamancy.fabric_item.tooltip": "It is a tooltip, my %s.",
   "item.lunamancy.moonstone": "Moonstone",

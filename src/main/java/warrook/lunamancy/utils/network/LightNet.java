@@ -1,39 +1,31 @@
 package warrook.lunamancy.utils.network;
 
 import net.fabricmc.fabric.api.util.NbtType;
-import net.minecraft.block.Block;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.Level;
+import org.jetbrains.annotations.Nullable;
 import warrook.lunamancy.Lunamancy;
-import warrook.lunamancy.ModManifest;
-import warrook.lunamancy.blocks.entities.LightTransmitterImpl;
 
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class LightNet {
-
-    //private Map<BlockPos, LightNodeInfo> connectedNodes;
-    private LinkedList<LightNodeInfo> connectedNodes = new LinkedList<>();
     private UUID id;
+    //private LinkedList<LightNodeInfo> connectedNodes = new LinkedList<>();
+    private HashMap<BlockPos, LightNodeInfo> connectedNodes = new HashMap<>();
 
     public LightNet(UUID id) {
         this.id = id;
     }
 
     public LightNet addNode(LightNodeInfo node) {
-        if (connectedNodes.contains(node)) {
-            Lunamancy.log(Level.WARN, "Tried to add node to LightNet that already contains it");
-            return null;
-        }
-        connectedNodes.add(node);
+        connectedNodes.put(node.getPosition().toImmutable(), node);
         return this;
     }
 
@@ -44,61 +36,54 @@ public class LightNet {
         return this;
     }
 
-    public LightNet merge(LightNet... lightNets) {
-        LinkedList<LightNodeInfo> list = new LinkedList<>(this.connectedNodes);
-
-        for (LightNet net : lightNets) {
-            if (net == this) {
-                Lunamancy.log(Level.WARN, "Tried to merge identical LightNets");
-                continue;
-            }
-
-            list.addAll(net.connectedNodes);
+    @Nullable
+    public LightNet addNodeOrNull(LightNodeInfo node) {
+        if (connectedNodes.containsKey(node.getPosition())) {
+            Lunamancy.log(Level.WARN, "Tried to add node to LightNet that already contains it");
+            return null;
         }
-
-        connectedNodes = list;
+        addNode(node);
         return this;
     }
 
+    public boolean hasNodeAt(BlockPos pos) {
+            return connectedNodes.containsKey(pos.toImmutable());
+    }
 
-
-    /*public CompoundTag toTag() {
-        CompoundTag tag = new CompoundTag();
-        tag.putUuid("id", id);
-        ListTag listTag = new ListTag();
-        for (Map.Entry<BlockPos, LightNodeInfo> entry : this.connectedNodes.entrySet()) {
-            CompoundTag entryTag = new CompoundTag();
-
-            long pos = entry.getKey().asLong();
-            entryTag.putLong("pos", pos);
-
-            LightNodeInfo nodeInfo = entry.getValue();
-            if (nodeInfo instanceof BlockEntity) {
-                entryTag.put("node", ((BlockEntity) nodeInfo).toTag(entryTag));
-            } else {
-                entryTag.put("node", null);
+    public LightNet merge(LightNet... lightNets) {
+        HashMap<BlockPos, LightNodeInfo> map = new HashMap<>(connectedNodes);
+        for (LightNet net : lightNets) {
+            if (net.equals(this)) {
+                Lunamancy.log(Level.WARN, "Tried to merge identical LightNets");
+                continue;
             }
-
-            listTag.add(entryTag);
+            map.putAll(net.connectedNodes);
         }
+        connectedNodes = map;
+        return this;
+    }
 
-        tag.put("nodes", listTag);
-
+    public CompoundTag toTag() {
+        CompoundTag tag = new CompoundTag();
+        tag.putUuid("Id", id);
+        ListTag listTag = new ListTag();
+        for (Map.Entry<BlockPos, LightNodeInfo> entry : connectedNodes.entrySet()) {
+            listTag.add(entry.getValue().toTag());
+        }
+        tag.put("ConnectedNodes", listTag);
         return tag;
     }
 
-    public void fromTag(CompoundTag tag) {
-        this.id = tag.getUuid("id");
-
-        ListTag listTag = tag.getList("nodes", NbtType.COMPOUND);
-        for (Tag t : listTag) {
-            LongTag posTag = (LongTag) t;
-            BlockPos p = BlockPos.fromLong(posTag.getLong());
-
-            connectedNodes.put(p, )
+    public static LightNet fromTag(CompoundTag tag) {
+        UUID id = tag.getUuid("Id");
+        LightNet net = new LightNet(id);
+        for (Tag t : tag.getList("ConnectedNodes", NbtType.COMPOUND)) {
+            CompoundTag node = (CompoundTag) t;
+            LightNodeInfo info = LightNodeInfo.fromTag(node);
+            net.connectedNodes.put(info.getPosition(), info);
         }
-
-    }*/
+        return net;
+    }
 
     public UUID getId() {
         return id;

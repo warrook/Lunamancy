@@ -93,10 +93,6 @@ public class BasinBlockEntity extends LightContainerImpl implements Tickable, To
         }
     }
 
-    /*@Environment(EnvType.CLIENT)
-    public void renderHud(MatrixStack matrices) {
-        GuiHelper.renderSymbolReadout(matrices, this);
-    }*/
 
     @Override
     public CompoundTag toTag(CompoundTag tag) {
@@ -114,20 +110,11 @@ public class BasinBlockEntity extends LightContainerImpl implements Tickable, To
     public void fromTag(BlockState state, CompoundTag tag) {
         super.fromTag(state, tag);
 
+        //TODO: unnecessary due to LightContainer i believe
         baseRate = tag.getFloat("base_rate");
         this.lightType = Moonlight.fromString(tag.getString("light_type"));
         this.lightAmount = tag.getFloat("amount");
         this.lightCapacity = tag.getFloat("capacity");
-    }
-
-    @Override
-    public ActionResult pushLight(LightTransmitter to) {
-        return null;
-    }
-
-    @Override
-    public void requestAmount(float amount) {
-
     }
 
     static {
